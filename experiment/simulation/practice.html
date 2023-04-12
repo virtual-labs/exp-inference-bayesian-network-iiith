@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Bayesian Network Inference: Practice</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+</div>
+		<!-- Your code goes here-->
+		<div class="container">
+			<div class="columns is-centered">
+				<div class="column is-one-quarter v-instruction-title">
+					Tasks
+				</div>
+			
+				<div class="column">
+					<div class="v-tabs">
+						<ul>
+							<li class="is-active" id="Domain1" onclick="changeTabs(event)">
+								<a>
+									Burglary Alarm
+								</a>
+							</li>
+							<li id="Domain2" onclick="changeTabs(event)">
+								<a>
+									Malfunctioning AC
+								</a>
+							</li>
+							<li id="Domain3" onclick="changeTabs(event)">
+								<a>
+									Marks in an Examination
+								</a>
+							</li>
+							<li id="Domain4" onclick="changeTabs(event)">
+								<a>
+									Rain Interruption
+								</a>
+							</li>
+							<li id="Domain5" onclick="changeTabs(event)">
+								<a>
+									Red Card?
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="columns is-centered">
+				
+				<div class="column">
+					<div class="v-collapsible-instruction-container v-instruction-container">
+						<div class="v-collapsible is-size-5">
+							Domain Problem Statement
+						</div>
+						<div class="v-content" id="instruction-title" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+							<b>Burglary Alarm</b>
+
+							<ul style="list-style: disc;">
+								 You have a new burglar alarm installed at home. It is fairly reliable at detecting a burglary, but also responds on occasion to minor earthquakes. (This example is due to Judea Pearl, a resident of Los Angeles—hence the acute interest in earthquakes.) You also have two neighbors, John and Mary, who have promised to call you at work when they hear the alarm. John nearly always calls when he hears the alarm, but sometimes confuses the telephone ringing with the alarm and calls then, too. Mary, on the other hand, likes rather loud music and often misses the alarm altogether. Given the evidence of who has or has not called, we would like to estimate the probability of a burglary.
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div class="columns is-centered is-flex-direction-row is-flex-wrap-wrap is-align-content-start">
+		<div class="column is-3-desktop is-12-tablet is-12-mobile">
+			<div class="v-datalist-container components-list">
+				<div class="v-datalist-title">Questions</div>
+				<div class="v-datalist-row">
+					<div id="question"></div>
+
+					</br>
+
+					<div class="v-datalist-row">
+					<div id = "displayqn" class="v-table-wrap">
+						<table class="table is-bordered is-fullwidth">
+				            <thead id="table-head">
+                				<tr>
+                    			<th colspan="1">Question</th>
+                    			<th colspan="1">Enter Probability</th>
+                				</tr>
+            				</thead>
+            				<tbody id="table-body">
+                				<tr>
+                    			<td>Find the probability of Burglary given that both mary and john call?</td>
+                    			<td id="ans1" contenteditable="true">?</td>
+                				</tr>
+								<tr>
+                    			<td>Find the probability of Earthquake given that Mary calls and there is an alarm?</td>
+                    			<td id="ans2" contenteditable="true">?</td>
+                				</tr>
+            				</tbody>
+        				</table>
+					</div>
+				</div>
+
+					</br>
+					<button class="v-button" id="finalbutton">Check</button>
+				</div>
+
+			</div>
+		</div>
+		<div class="column is-6-desktop is-12-tablet is-12-mobile">
+			<div id="circuit-board">
+				<div id="working-area">
+					<div id="myModal"  class="modal">
+					  	<div  id = "alertmodal1" class="modal-content successmodal" >
+    						<span class="close">&times;</span>
+  						</div>
+						<div  id = "alertmodal2" class="modal-content failuremodal">
+    						<span class="close">&times;</span>
+    					
+  						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="column is-3-desktop is-12-tablet is-12-mobile">
+			<div class="v-datalist-container components-list">
+				<div class="v-datalist-title">Information</div>
+				<div class="v-datalist-row">
+					<div id="result"></div>
+
+					<div class="v-collapsible-instruction-container v-instruction-container">
+						<div id="instruction-title" class="v-collapsible is-size-5">
+							General Instructions
+						</div>
+						<div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+							<b>Instructions for using interface</b>
+
+							<ul style="list-style: disc;">
+								<li>You have been presented a fully completed Bayesian Network graph constructed for the given domain statement</li>
+								<li>Your task is to find the probabilities in the given scenarios.</li>
+								<li>You can access the CPT tables of the nodes by clickin on the nodes</li>
+								<li>Click on the "Check" button to verify your answers.</li>
+								<li> Notice that there are mulitple questions for each domiain</li>
+								<li>So missing values or incorrect answers for any of them will lead to invalid answers</li>
+							</ul>
+						</div>
+					</div>
+					</br>
+					<div class="v-collapsible-instruction-container v-instruction-container">
+						<div id="instruction-title" class="v-collapsible is-size-5">
+							Hints
+						</div>
+						<div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+							<b>These hints allow you to construct a valid Bayesian Network</b>
+
+							<ul id = "hintsid" style="list-style: disc;">
+								<li>Try to use the total probabilities</li>
+								<li>Learn or analyse how you can write total probability in terms of product of probabilites  of each node.</li>
+								<li>What is the relation between node probability and its parents</li>
+								
+							</ul>
+						</div>
+					</div>
+
+					<div class="v-datalist-row">
+					<div id = "cpt1" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt2" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt3" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt4" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt5" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt6" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt7" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt8" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt9" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt10" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt11" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt12" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt13" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt14" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt15" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt16" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt17" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt18" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt19" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt20" class="v-table-wrap">
+						
+					</div>
+				
+				
+				</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="menu">
+		<ul class="menu-options">
+			<li class="menu-option">Delete</li>
+			<li class="menu-option">Cancel</li>
+		</ul>
+	</div>
+
+
+
+	<!-- Add JS at the bottom of HTML file --> 
+    <script src="js/jsplumb.bundle.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/js/script.js"></script>
+	<script type="module" src="js/main.js"></script>
+</body>
+</html>
