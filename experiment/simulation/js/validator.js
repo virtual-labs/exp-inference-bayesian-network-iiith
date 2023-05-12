@@ -1,5 +1,5 @@
 import { clearResult, nodes} from "./node.js";
-
+import { showSimSolution} from "./layout.js";
 "use strict";
 
 function errorMessageGeneral(msg){
@@ -127,9 +127,20 @@ export function domainValidator1() {
             const ele = document.getElementById(value.id);
             ele.onclick = function(event) {addCPT(event);};
         }
+        
         const elel  = document.getElementById("finalbutton");
-        elel.innerText = "Check";
-        elel.onclick = function(){checkCPT();};
+        var path = window.location.pathname;
+        var page = path.split("/").pop();
+        if( page == "simulation.html"){
+          elel.innerText = "Show Solution";
+          // Write New solution here
+          elel.onclick = function(){showSimSolution();};
+        }
+        else{
+          elel.innerText = "Check";
+          elel.onclick = function(){checkCPT();};
+        } 
+        
         let eeel;
         if(window.currentTab === "Domain1"){
             eeel = document.getElementById(adjlist["alarm"].id);

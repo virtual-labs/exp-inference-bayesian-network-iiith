@@ -6,12 +6,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>Bayesian Network Construction: Practice</title>
+	<title>Bayesian Network Inference: Practice</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
 	<link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
+
+</div>
 		<!-- Your code goes here-->
 		<div class="container">
 			<div class="columns is-centered">
@@ -24,55 +26,29 @@
 						<ul>
 							<li class="is-active" id="Domain1" onclick="changeTabs(event)">
 								<a>
-									Domain1
+									Burglary Alarm
 								</a>
 							</li>
 							<li id="Domain2" onclick="changeTabs(event)">
 								<a>
-									Domain2
+									Malfunctioning AC
 								</a>
 							</li>
 							<li id="Domain3" onclick="changeTabs(event)">
 								<a>
-									Domain3
+									Marks in an Examination
 								</a>
 							</li>
 							<li id="Domain4" onclick="changeTabs(event)">
 								<a>
-									Domain4
+									Rain Interruption
 								</a>
 							</li>
-							<li id="domain5" onclick="changeTabs(event)">
+							<li id="Domain5" onclick="changeTabs(event)">
 								<a>
-									Domain5
+									Red Card?
 								</a>
 							</li>
-							<li id="Domain6" onclick="changeTabs(event)">
-								<a>
-									Domain6
-								</a>
-							</li>
-							<li id="Domain7" onclick="changeTabs(event)">
-								<a>
-									Domain7
-								</a>
-							</li>
-							<li id="Domain8" onclick="changeTabs(event)">
-								<a>
-									Domain8
-								</a>
-							</li>
-								<li  id="domain9" onclick="changeTabs(event)">
-								<a>
-									Domain9
-								</a>
-							</li>
-							<li id="Domain10" onclick="changeTabs(event)">
-								<a>
-									Domain10
-								</a>
-							</li>
-							
 						</ul>
 					</div>
 				</div>
@@ -100,23 +76,53 @@
 		</div>
 
 		<div class="columns is-centered is-flex-direction-row is-flex-wrap-wrap is-align-content-start">
-		<div class="column is-2-desktop is-12-tablet is-12-mobile">
-			<div class="v-datalist-container" style="height:100%">
-				<div class="v-datalist-title">Components</div>
-				<div class="v-datalist-row components-list" id="toolbar">
-					<div class="component-button burglary" onclick="addNode(event)">Burglary</div>
-					<div class="component-button earthquake" onclick="addNode(event)">Earthquake</div>
-					<div class="component-button alarm" onclick="addNode(event)">Alarm</div>
-					<div class="component-button johncalls" onclick="addNode(event)">Johncalls</div>
-					<div class="component-button marycalls" onclick="addNode(event)">Marycalls</div>
-					<div class="component-button india" onclick="addNode(event)">India</div>
-					<div class="component-button olympics" onclick="addNode(event)">Olympics</div>
+		<div class="column is-5-desktop is-12-tablet is-12-mobile">
+			<div class="v-datalist-container components-list">
+				<div class="v-datalist-title">Questions</div>
+				<div class="v-datalist-row">
+					<div id="question"></div>
+
+					</br>
+
+					<div class="v-datalist-row">
+					<div id = "displayqn" class="v-table-wrap">
+						<table class="table is-bordered is-fullwidth">
+				            <thead id="table-head">
+                				<tr>
+                    			<th colspan="1">Question</th>
+                    			<th colspan="1">Enter Probability</th>
+                				</tr>
+            				</thead>
+            				<tbody id="table-body">
+                				<tr>
+                    			<td>Find the probability of Burglary given that both mary and john call?</td>
+                    			<td id="ans1" contenteditable="true">?</td>
+                				</tr>
+            				</tbody>
+        				</table>
+					</div>
 				</div>
+
+					</br>
+					<button class="v-button" id="finalbutton">Show Solution</button>
+					<div id="solutionid"> </div>
+				</div>
+
 			</div>
 		</div>
-		<div class="column is-7-desktop is-12-tablet is-12-mobile">
+		<div class="column is-4-desktop is-12-tablet is-12-mobile">
 			<div id="circuit-board">
 				<div id="working-area">
+					<div id="myModal"  class="modal">
+					  	<div  id = "alertmodal1" class="modal-content successmodal" >
+    						<span class="close">&times;</span>
+  						</div>
+						<div  id = "alertmodal2" class="modal-content failuremodal">
+    						<span class="close">&times;</span>
+    					
+  						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -134,11 +140,12 @@
 							<b>Instructions for using interface</b>
 
 							<ul style="list-style: disc;">
-								<li>Click on components on the left side to add them to the circuit board</li>
-								<li>Drag and drop components to move them around, connect them using lines by dragging your cursor from one endpoint to another.</li>
-								<li>You can delete components by right clicking on them and selecting the delete option.</li>
-								<li>Click on the "Simulate" button to simulate the circuit and see the output.</li>
-								<li>Click on the "Submit" button to submit the circuit once you think you have built the required circuit.</li>
+								<li>You have been presented a fully completed Bayesian Network graph constructed for the given domain statement</li>
+								<li>Your task is to find the probabilities in the given scenarios.</li>
+								<li>You can access the CPT tables of the nodes by clickin on the nodes</li>
+								<li>Click on the "Check" button to verify your answers.</li>
+								<li> Notice that there are mulitple questions for each domiain</li>
+								<li>So missing values or incorrect answers for any of them will lead to invalid answers</li>
 							</ul>
 						</div>
 					</div>
@@ -148,20 +155,82 @@
 							Hints
 						</div>
 						<div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
-							<b>These hints allow you to construct a valid Bayesian Network</b>
+							<b>These hints allow you to infer from Bayesian Network</b>
 
-							<ul style="list-style: disc;">
-								<li>Alarm setsoff when there is a burglary or ocassionally when there is a earthquake.</li>
-								<li>John, Mary calling depends on whether the alarm is ringing</li>
-								<li>Are you getting any additional information about John/Mary calling if you know the reason why alarm is ringing?</li>
-								<li>Not really, as John/ Mary give least attention to reason why alarm is ringing.</li>
-								<li>You can ignore listening to music and telephone ringing, we can embed their probabilities in the Mary/John calling itself.</li>
+							<ul id = "hintsid" style="list-style: disc;">
+								<li>Try to use the total probabilities</li>
+								<li>Learn or analyse how you can write total probability in terms of product of probabilites  of each node.</li>
+								<li>What is the relation between node probability and its parents</li>
+								
 							</ul>
 						</div>
 					</div>
-			
-					</br>
-					<button class="v-button" onclick="submitCircuit()">Submit</button>
+
+					<div class="v-datalist-row">
+					<div id = "cpt1" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt2" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt3" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt4" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt5" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt6" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt7" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt8" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt9" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt10" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt11" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt12" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt13" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt14" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt15" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt16" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt17" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt18" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt19" class="v-table-wrap">
+						
+					</div>
+					<div id = "cpt20" class="v-table-wrap">
+						
+					</div>
+				
+				
+				</div>
+
 				</div>
 
 			</div>
@@ -174,6 +243,7 @@
 			<li class="menu-option">Cancel</li>
 		</ul>
 	</div>
+
 
 
 	<!-- Add JS at the bottom of HTML file --> 

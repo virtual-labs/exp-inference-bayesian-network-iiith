@@ -12,6 +12,7 @@ import { domainValidator1, domainValidator2, checkCPT } from "./validator.js";
 export const wireColours = "#ff0000";
 const menu = document.querySelector(".menu");
 const menuOption = document.querySelector(".menu-option");
+let allTimeOuts = [];
 
 export const setPosition = ({ top, left }) => {
     menu.style.left = `${left}px`;
@@ -51,6 +52,9 @@ export function changeTabs(e) {
     }
     window.currentTab = task;
     document.getElementById(task).classList.add("is-active");
+    var path = window.location.pathname;
+    var page = path.split("/").pop(); 
+    // console.log( page );
     unbindEvent();
     connectNode();
     refreshWorkingArea();
@@ -58,7 +62,9 @@ export function changeTabs(e) {
     // updateToolbar();marycmarycallsalls
     updateHints();
     updateQuestion();
-    // updateInstructions();
+    updateInstructions();
+    if(page == "simulation.html")
+    clearSolution();
     updateWorkingArea();
     clearObservations();
     resize();
@@ -66,6 +72,16 @@ export function changeTabs(e) {
 
 
 window.changeTabs = changeTabs;
+
+function clearSolution(){
+  for(let i in allTimeOuts){
+    clearTimeout(allTimeOuts[i])
+    // console.log(i)
+  }
+  allTimeOuts = []
+  document.getElementById("solutionid").style.fontSize = "small";
+  document.getElementById("solutionid").innerHTML = "";
+}
 
 export const updateWorkingArea = () => {
     const task = window.currentTab;
@@ -76,16 +92,16 @@ export const updateWorkingArea = () => {
     let nodeslist = []
     if(task === "Domain1"){
       namelist = ["alarm", "earthquake", "burglary", "johncalls", "marycalls"]
-      cordinatelist = [[50, 50], [20, 20], [70, 20], [70, 70], [20, 70]];
+      cordinatelist = [[40, 40], [15, 15], [60, 15], [60, 60], [15, 60]];
 
     }
     else if (task === "Domain2"){
       namelist = ["electricityfailure", "computermalfunction", "lightfailure", "computerfailure"];
-      cordinatelist = [[15, 20], [60, 20], [60, 70], [20, 60]];
+      cordinatelist = [[10, 10], [30, 30], [60, 60], [20, 80]];
     }
     else if (task === "Domain3"){
       namelist = ["examdifficulty", "iq", "score", "aptitudescore"];
-      cordinatelist = [[15, 20], [60, 20], [60, 70], [20, 60]];
+      cordinatelist = [[15, 20], [80, 20], [60, 70], [20, 60]];
     }
     else if (task === "Domain4"){
       namelist = ["windy", "cloudy", "rain", "match"];
@@ -129,10 +145,106 @@ export const updateWorkingArea = () => {
     domainValidator1();
 }
 
+const updateSimQuestion = () => {
+  const task = window.currentTab;
+  let qn = ``
+  if (task === "Domain1"){
+    qn = `<table class="table is-bordered is-fullwidth">
+    <thead id="table-head">
+        <tr>
+          <th colspan="1">Question</th>
+          <th colspan="1">Enter Probability</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <tr>
+          <td>Find the probability of Burglary given that both mary and john call?</td>
+          <td id="ans1" contenteditable="true">?</td>
+        </tr>
+    </tbody>
+</table>`
+  }
+  else if(task === "Domain2"){
+    qn = `<table class="table is-bordered is-fullwidth">
+    <thead id="table-head">
+        <tr>
+          <th colspan="1">Question</th>
+          <th colspan="1">Enter Probability</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <tr>
+          <td>Find the probability of computerfailure given there is light failure?</td>
+          <td id="ans1" contenteditable="true">?</td>
+        </tr>
+    </tbody>
+</table>`
+  }
+  else if(task  === "Domain3"){
+    qn = `<table class="table is-bordered is-fullwidth">
+    <thead id="table-head">
+        <tr>
+          <th colspan="1">Question</th>
+          <th colspan="1">Enter Probability</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <tr>
+          <td>Find the probability of having high IQ if the score is low?</td>
+          <td id="ans1" contenteditable="true">?</td>
+        </tr>
+    </tbody>
+</table>`
+  }
+  else if(task === "Domain4"){
+    qn = `<table class="table is-bordered is-fullwidth">
+    <thead id="table-head">
+        <tr>
+          <th colspan="1">Question</th>
+          <th colspan="1">Enter Probability</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <tr>
+          <td>Find the probability of rain if the weather is cloudy and windy?</td>
+          <td id="ans1" contenteditable="true">?</td>
+        </tr>
+    </tbody>
+</table>`
+  }
+  else{
+    qn = `<table class="table is-bordered is-fullwidth">
+    <thead id="table-head">
+        <tr>
+          <th colspan="1">Question</th>
+          <th colspan="1">Enter Probability</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <tr>
+          <td>Find the probability of having red card if a yellow card is given?</td>
+          <td id="ans1" contenteditable="true">?</td>
+        </tr>
+    </tbody>
+</table>`
+  }
+  return qn;
+}
+
+
 const updateQuestion = () => {
   const task = window.currentTab;
   const questiontab = document.getElementById("displayqn");
+  var path = window.location.pathname;
+  var page = path.split("/").pop();
+  // console.log( page );
   let qn = "";
+  if(page == "simulation.html"){
+    qn = updateSimQuestion()
+    questiontab.innerHTML = qn
+    return
+  }
+
   if (task === "Domain1"){
     qn = `<table class="table is-bordered is-fullwidth">
     <thead id="table-head">
@@ -327,6 +439,51 @@ function helperprint(question1, tagname, i, convname){
   return denominator
 }
 
+export function showSimSolution(){
+  let elem = "";
+  let defval = 1;
+  if(window.currentTab === "Domain1"){
+      let question1 = [1, "*", "*", 1, 1];
+      let tagname = {"burglary": 0, "alarm": 1, "earthquake": 2, "marycalls": 3, "johncalls": 4};
+      let convname = {"burglary": "B", "alarm": "A", "earthquake": "E", "marycalls": "M", "johncalls":"J"};
+
+      let edges = {"alarm": ["burglary", "earthquake"], "earthquake": [], "burglary": [], "johncalls": ["alarm"], "marycalls": ["alarm"] };
+      elem = findValidTermSim(question1, tagname, edges, 0, convname, defval)
+
+  }
+  else if (window.currentTab === "Domain2"){
+    let edges = {"electricityfailure": [], "computermalfunction": [], "lightfailure": ["electricityfailure"], "computerfailure": ["electricityfailure", "computermalfunction"]};
+    let tagname = {"electricityfailure": 0, "computermalfunction": 1, "lightfailure": 2, "computerfailure": 3};
+    let convname = {"electricityfailure": "E", "computermalfunction": "CM", "lightfailure": "L", "computerfailure": "CF"};
+    let question1 = ["*", "*" , 1, 1];
+    elem = findValidTermSim(question1, tagname, edges, 3, convname, defval);
+  }
+  else if(window.currentTab === "Domain3"){
+    let edges = {"examdifficulty": [], "iq": [], "score": ["examdifficulty", "iq"], "aptitudescore": ["iq"]};
+        let tagname = {"examdifficulty": 0, "iq": 1, "score": 2, "aptitudescore": 3};
+        let convname = {"examdifficulty": "E", "iq": "IQ", "score": "S", "aptitudescore": "A"};
+        
+        let question1 = ["*", 1, 0, "*"];
+    elem = findValidTermSim(question1, tagname, edges, 1, convname, defval);
+  }
+  else if(window.currentTab === "Domain4"){
+    let edges = {"windy": [], "cloudy": [], "rain": ["windy", "cloudy"], "match": ["rain"]};
+    let tagname = {"windy": 0, "cloudy": 1, "rain": 2, "match": 3};
+    let convname = {"windy": "W", "cloudy": "C", "rain": "R", "match": "M"};
+
+    let question1 = [1,1,1,"*"];
+    elem = findValidTermSim(question1, tagname, edges, 2, convname, defval);
+  }
+  else if(window.currentTab === "Domain5"){
+    let edges = {"yellowcard": [], "harshtackle": [], "redcard": ["harshtackle", "yellowcard"]};
+    let tagname = {"yellowcard": 0, "harshtackle":1, "redcard": 2};
+    let convname = {"yellowcard": "Y", "harshtackle":"H", "redcard": "R"};
+
+    let question1 = [1, "*", 1]
+    elem = findValidTermSim(question1, tagname, edges, 2, convname, defval);
+  }
+}
+
 function findparentchild(edges, curname, tagname, question1, convname){
   let elem = ``
   let denominator = ``
@@ -410,7 +567,66 @@ function printRelevantHints(tem, edges, tagname, pos, convname){
   return elem+elem1;
 }
 
-function findValidTerm(question1, tagname, edges, pos, convname){
+
+function printRelevantSol(tem, edges, tagname, pos, convname, defflag = 0){
+  // console.log(convname)
+  let tttem = 1;
+  let elem = ``
+  // console.log(convname)
+  let elem1 = ``
+  let fffff = 0
+  for(let i in tagname){
+    // console.log(i)
+    if(fffff == 0){
+    elem1 += findparentchild(edges, i, tagname, tem, convname)
+      fffff = 1
+  }
+  else{
+    elem1 += ` x `
+    elem1 += findparentchild(edges, i, tagname, tem, convname)
+    
+  }
+  }
+  if(defflag == 1){
+    return elem1
+  }
+  elem1 = ``
+
+  // return elem;
+  fffff = 0
+  for(let key in tagname){
+      // console.log(key)
+      let curnum = ""
+      for(let par in edges[key]){
+          curnum = curnum + (tem[tagname[edges[key][par]]]).toString();
+      }
+      curnum = curnum + "1";
+      curnum = key + curnum;
+      // console.log(curnum);
+      const el = document.getElementById(curnum);
+      let vl = parseFloat(el.innerText);
+      // console.log(vl);
+      if(tem[tagname[key]] == 0){
+          vl= 1-vl;
+      }
+      // console.log(fffff)
+      if(fffff == 0){
+        elem1 += `${vl.toFixed(3)}`
+        fffff = 1
+      }
+      else{
+        elem1 += ` x `
+        elem1 += `${vl.toFixed(3)}`
+      }
+      tttem = tttem*vl;
+  }
+  if(defflag==2)return elem1;
+  else return `${tttem}`
+
+  return elem+elem1;
+}
+
+function findValidTerm(question1, tagname, edges, pos, convname, defval){
   
   let n = Object.keys(tagname).length;
   let elem = `<b>From the given question[1] what we need to find is</b> <br />`
@@ -503,14 +719,308 @@ function findValidTerm(question1, tagname, edges, pos, convname){
       if(fl==1){
           // console.log(convname)
           elem += printRelevantHints(tem, edges, tagname, pos, convname);
+          if(defval == 0)
           return elem;
-          break;
+          // break;
       }
   }
+  return elem
+}
+
+function timeoutCustom(elem, timeoutduration){
+  return setTimeout(function(){
+    document.getElementById("solutionid").style.fontSize = "small";
+    document.getElementById("solutionid").innerHTML = elem;
+  }, timeoutduration); 
+
+}
+
+function findValidTermSim(question1, tagname, edges, pos, convname, defval){
+  allTimeOuts = [] 
+  let n = Object.keys(tagname).length;
+  let elem = `<br /><b>From the given question what we need to find is</b> <br />`
+  for(let key in tagname){
+    addCPT([], 1, key);
+}
+  let fixedDurationSim = 1400
+  let timeoutduration = 0
+  allTimeOuts.push(timeoutCustom(elem, timeoutduration))
+  let temelem = ``
+    let denominator = ``
+  let fulldenom = ``
+  for(let i=0;i<n;i++){
+    if(i!=pos && question1[i]!="*"){
+      for(let ed in edges){
+        if(tagname[ed] == i){
+          denominator += ` `
+          if(question1[i]==1)
+          denominator += `${convname[ed]}=T`
+          else
+          denominator += `${convname[ed]}=F`
+        }
+      }
+    }
+    for(let ed in edges){
+      if(tagname[ed] == i){
+        fulldenom += ` `
+        if(question1[i]==1)
+        fulldenom += `${convname[ed]}=T`
+        else if(question1[i]==0)
+        fulldenom += `${convname[ed]}=F`
+        else
+        fulldenom += `${convname[ed]}=*` 
+      }
+    }
+
+  }
+  let nodeimp = ``
+  for(let ed in edges){
+    if(tagname[ed] == pos){
+      // denominator += ` `
+      if(question1[pos]==1)
+        nodeimp += `${convname[ed]}=T`
+      else
+        nodeimp += `${convname[ed]}=F`
+    }
+  }
+  temelem += `P(${nodeimp} | ${denominator})`
+  temelem += `<br />`
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem = elem + temelem
+  temelem =``
+  temelem += `= const x \u2211 `
+  let fffff = 0
+  for(let i in tagname){
+    // console.log(i)
+    if(fffff == 0){
+    temelem += findparentchild(edges, i, tagname, question1, convname)
+      fffff = 1
+  }
+  else{
+    temelem += ` x `
+    temelem += findparentchild(edges, i, tagname, question1, convname)
+    
+  }
+  }
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  
+  elem += temelem
+  let total = 0;
+ for(let ii=1;ii<=3;ii++){
+  temelem = `<br\ >= const x (`
+  let flagforfirst = 1
+  for(let i=0;i<Math.pow(2, n);i++){
+      let tem = [];
+      let ji = i;
+      for(let j=0;j<n;j++){
+          tem.push(ji%2);
+          if(ji%2==1){
+              ji = ji - 1;
+          }
+          ji=ji/2;
+      }
+      let fl = 1;
+      for(let j=0;j<n;j++){
+          if(question1[j] != "*"){
+              if(tem[j] != question1[j]){
+                  fl= 0;
+              }
+          }
+      }
+      if(fl==1){
+          if(flagforfirst==0){
+            temelem += `<br\ >   + `
+          }
+          let teme = printRelevantSol(tem, edges, tagname, pos, convname, ii);
+          if(ii==3){
+            total += parseFloat(teme)
+          }
+          temelem += teme
+          
+          flagforfirst = 0;
+          timeoutduration += fixedDurationSim
+          allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+          elem += temelem
+          temelem = ``
+      }
+  }
+  console.log(total)
+  temelem += ` )`
+  // timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+  
+}
+  temelem = `<br\ >= const x ${total}`
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+
+  temelem = `<br\ ><br\ ><br\ >But we need to eliminate the const, for this we need to calculate the other possiblity of query variable also. So that we will get probability for both T and F, so we could divide and eliminate the const, So we have: <br\ >`
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+  
+  question1[pos] = 1 - question1[pos]
+
+  let denominator2 = ``
+  let fulldenom2 = ``
+  for(let i=0;i<n;i++){
+    if(i!=pos && question1[i]!="*"){
+      for(let ed in edges){
+        if(tagname[ed] == i){
+          denominator2 += ` `
+          if(question1[i]==1)
+          denominator2 += `${convname[ed]}=T`
+          else
+          denominator2 += `${convname[ed]}=F`
+        }
+      }
+    }
+    for(let ed in edges){
+      if(tagname[ed] == i){
+        fulldenom2 += ` `
+        if(question1[i]==1)
+        fulldenom2 += `${convname[ed]}=T`
+        else if(question1[i]==0)
+        fulldenom2 += `${convname[ed]}=F`
+        else
+        fulldenom2 += `${convname[ed]}=*` 
+      }
+    }
+
+  }
+  let nodeimp2 = ``
+  for(let ed in edges){
+    if(tagname[ed] == pos){
+      // denominator += ` `
+      if(question1[pos]==1)
+        nodeimp2 += `${convname[ed]}=T`
+      else
+        nodeimp2 += `${convname[ed]}=F`
+    }
+  }
+  temelem = ``
+  temelem += `P(${nodeimp2} | ${denominator2})`
+  temelem += `<br />`
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem = elem + temelem
+  temelem =``
+  temelem += `= const x \u2211 `
+  fffff = 0
+  for(let i in tagname){
+    // console.log(i)
+    if(fffff == 0){
+    temelem += findparentchild(edges, i, tagname, question1, convname)
+      fffff = 1
+  }
+  else{
+    temelem += ` x `
+    temelem += findparentchild(edges, i, tagname, question1, convname)
+    
+  }
+  }
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  
+  elem += temelem
+  let total2 = 0;
+ for(let ii=1;ii<=3;ii++){
+  temelem = `<br\ >= const x (`
+  let flagforfirst = 1
+  for(let i=0;i<Math.pow(2, n);i++){
+      let tem = [];
+      let ji = i;
+      for(let j=0;j<n;j++){
+          tem.push(ji%2);
+          if(ji%2==1){
+              ji = ji - 1;
+          }
+          ji=ji/2;
+      }
+      let fl = 1;
+      for(let j=0;j<n;j++){
+          if(question1[j] != "*"){
+              if(tem[j] != question1[j]){
+                  fl= 0;
+              }
+          }
+      }
+      if(fl==1){
+          if(flagforfirst==0){
+            temelem += `<br\ >   + `
+          }
+          let teme = printRelevantSol(tem, edges, tagname, pos, convname, ii);
+          if(ii==3){
+            total2 += parseFloat(teme)
+          }
+          temelem += teme
+          
+          flagforfirst = 0;
+          timeoutduration += fixedDurationSim
+          allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+          elem += temelem
+          temelem = ``
+      }
+  }
+  // console.log(total2)
+  temelem += ` )`
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+  
+}
+  temelem = `<br\ >= const x ${total2}`
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+
+  temelem = `<br\ ><br\ ><br\ >We need to use the above computed probabilites to eliminate constant which is there in solution <br\ >`
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+
+  temelem += `P(${nodeimp} | ${denominator}) = P(${nodeimp} | ${denominator}) / (P(${nodeimp} | ${denominator}) + P(${nodeimp2} | ${denominator2}))`
+  temelem += `<br />`
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+  
+  temelem += `P(${nodeimp} | ${denominator}) = (const x ${total}) / (const x ${total} + const x ${total2})`
+  temelem += `<br />`
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+  
+  temelem += `P(${nodeimp} | ${denominator}) = (${total}) / (${total} + ${total2})`
+  temelem += `<br />`
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+  let finalanssol = parseFloat(total)/(parseFloat(total) + parseFloat(total2))
+  temelem += `P(${nodeimp} | ${denominator}) = ${finalanssol}`
+  temelem += `<br />`
+  timeoutduration += fixedDurationSim
+  allTimeOuts.push(timeoutCustom(elem + `<b>` + temelem + `\b`, timeoutduration))
+  elem += temelem
+  temelem = ``
+
+
+
+  return elem
 }
 
 
-export function updateHints(){
+export function updateHints(defval = 0){
   let elem = "";
   if(window.currentTab === "Domain1"){
       let question1 = [1, "*", "*", 1, 1];
@@ -518,7 +1028,7 @@ export function updateHints(){
       let convname = {"burglary": "B", "alarm": "A", "earthquake": "E", "marycalls": "M", "johncalls":"J"};
 
       let edges = {"alarm": ["burglary", "earthquake"], "earthquake": [], "burglary": [], "johncalls": ["alarm"], "marycalls": ["alarm"] };
-      elem = findValidTerm(question1, tagname, edges, 0, convname)
+      elem = findValidTerm(question1, tagname, edges, 0, convname, defval)
 
   }
   else if (window.currentTab === "Domain2"){
@@ -526,7 +1036,7 @@ export function updateHints(){
     let tagname = {"electricityfailure": 0, "computermalfunction": 1, "lightfailure": 2, "computerfailure": 3};
     let convname = {"electricityfailure": "E", "computermalfunction": "CM", "lightfailure": "L", "computerfailure": "CF"};
     let question1 = ["*", "*" , 1, 1];
-    elem = findValidTerm(question1, tagname, edges, 3, convname);
+    elem = findValidTerm(question1, tagname, edges, 3, convname, defval);
   }
   else if(window.currentTab === "Domain3"){
     let edges = {"examdifficulty": [], "iq": [], "score": ["examdifficulty", "iq"], "aptitudescore": ["iq"]};
@@ -534,7 +1044,7 @@ export function updateHints(){
         let convname = {"examdifficulty": "E", "iq": "IQ", "score": "S", "aptitudescore": "A"};
         
         let question1 = ["*", 1, 0, "*"];
-    elem = findValidTerm(question1, tagname, edges, 1, convname);
+    elem = findValidTerm(question1, tagname, edges, 1, convname, defval);
   }
   else if(window.currentTab === "Domain4"){
     let edges = {"windy": [], "cloudy": [], "rain": ["windy", "cloudy"], "match": ["rain"]};
@@ -542,7 +1052,7 @@ export function updateHints(){
     let convname = {"windy": "W", "cloudy": "C", "rain": "R", "match": "M"};
 
     let question1 = [1,1,1,"*"];
-    elem = findValidTerm(question1, tagname, edges, 2, convname);
+    elem = findValidTerm(question1, tagname, edges, 2, convname, defval);
   }
   else if(window.currentTab === "Domain5"){
     let edges = {"yellowcard": [], "harshtackle": [], "redcard": ["harshtackle", "yellowcard"]};
@@ -550,7 +1060,7 @@ export function updateHints(){
     let convname = {"yellowcard": "Y", "harshtackle":"H", "redcard": "R"};
 
     let question1 = [1, "*", 1]
-    elem = findValidTerm(question1, tagname, edges, 2, convname);
+    elem = findValidTerm(question1, tagname, edges, 2, convname, defval);
   }
   document.getElementById("hintsid").style.fontSize = "small";
   document.getElementById("hintsid").innerHTML = elem;
@@ -589,8 +1099,17 @@ function clearObservations() {
     }
     document.getElementById("result").innerHTML = "";
     const elel  = document.getElementById("finalbutton");
-    elel.innerText = "Check";
-    elel.onclick = function(){checkCPT();}; 
+    var path = window.location.pathname;
+    var page = path.split("/").pop();
+    if( page == "simulation.html"){
+      elel.innerText = "Show Solution";
+      // Write New solution here
+      elel.onclick = function(){showSimSolution();};
+    }
+    else{
+      elel.innerText = "Check";
+      elel.onclick = function(){checkCPT();};
+    } 
 }
 
 const circuitBoard = document.getElementById("circuit-board");

@@ -49,23 +49,6 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "What is full form of CPT in the context of Bayesian Network?",
-      "answers": {
-        "a": "Common Proficiency Test",
-        "b": "Charted Proficiency Test",
-        "c": "Conditional Probability Table",
-        "d": "Common Probability Table"
-      },
-      "explanations": {
-        "a": "CPT: Conditional Probability Table",
-        "b": "CPT: Conditional Probability Table",
-        "c": "CPT: Conditional Probability Table",
-        "d": "CPT: Conditional Probability Table"
-      },
-      "correctAnswer": "c",
-      "difficulty": "beginner"
-    },
-    {
       "question": "Which of the follwing are true?",
       "answers": {
         "a": "Bayesian Network can represent any full joint probability distribution",
