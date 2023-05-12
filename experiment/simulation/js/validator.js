@@ -285,21 +285,27 @@ function checkAnswers(question1, tagname, edges, pos){
     // console.log(denominator/numerator)
 }
 
-function aretheycorrect(ans1, ans2){
-    const el = document.getElementById("ans1");
+function aretheycorrect(ans){
+    let fl = 0
+    for(let i=1;i<=ans.length-1;i++){
+        // try{
+        const el = document.getElementById(`ans${i}`);
         const vl = parseFloat(el.innerText);
-        const el2 = document.getElementById("ans2");
-        const vl2 = parseFloat(el2.innerText);
-        
-        if(vl == ans1 && vl2 == ans2){
-            successMessageCPT();
+        // console.log(`hi ${vl}`)
+        if(vl != ans[i]){
+            fl = 1;
         }
-        else{
-            // console.log(vl===ans1);
-            // console.log(vl2);
-            errorMessageCPT();
-        }
+    // }
+
+    }
+    if(fl == 1){
+        errorMessageCPT();
+    }
+    else{
+        successMessageCPT();
+    }
 }
+
 
 export function checkCPT(){
 
@@ -314,41 +320,71 @@ export function checkCPT(){
         let question2 = ["*", 1, 1, 1, "*"];
         let ans2 = checkAnswers(question2, tagname, edges, 2);
         console.log(ans2);
-        aretheycorrect(ans1, ans2);
+
+        let question3 = ["*", "*", 1, 1, 1];
+        let ans3 = checkAnswers(question3, tagname, edges, 4);
+        console.log(ans3);
+        
+        let question4 = ["*", 1, 1, 1, 1];
+        let ans4 = checkAnswers(question4, tagname, edges, 4);
+        console.log(ans4);
+        
+        aretheycorrect([0, ans1, ans2, ans3, ans4]);
     }
     else if(window.currentTab == "Domain2"){
         let edges = {"electricityfailure": [], "computermalfunction": [], "lightfailure": ["electricityfailure"], "computerfailure": ["electricityfailure", "computermalfunction"]};
         let tagname = {"electricityfailure": 0, "computermalfunction": 1, "lightfailure": 2, "computerfailure": 3};
         let question1 = ["*", "*" , 1, 1];
         let question2 = ["*", 1, 1, 1];
+        let question3 = ["*", 1, 0, 1];
+        let question4 = [1, 1, 1, 1]
         let ans1 = checkAnswers(question1, tagname, edges, 3);
+        let ans3 = checkAnswers(question3, tagname, edges, 3);
+
         let ans2 = checkAnswers(question2, tagname, edges, 1);
+        let ans4 = checkAnswers(question4, tagname, edges, 1);
+
         console.log(ans1);
         console.log(ans2);
-        aretheycorrect(ans1, ans2);
+        console.log(ans3);
+        console.log(ans4);
+        aretheycorrect([0, ans1, ans2, ans3, ans4]);
     }
     else if(window.currentTab == "Domain3"){
         let edges = {"examdifficulty": [], "iq": [], "score": ["examdifficulty", "iq"], "aptitudescore": ["iq"]};
         let tagname = {"examdifficulty": 0, "iq": 1, "score": 2, "aptitudescore": 3};
         let question1 = ["*", 1, 0, "*"];
         let question2 = ["*", 0, 1, 1];
+        let question3 = ["*", 1, 1, "*"];
+        let question4 = ["*",1, 1, "*"];
         let ans1 = checkAnswers(question1, tagname, edges, 1);
         let ans2 = checkAnswers(question2, tagname, edges, 3);
+        let ans3 = checkAnswers(question3, tagname, edges, 1);
+        let ans4 = checkAnswers(question4, tagname, edges, 2);
+        
         console.log(ans1);
         console.log(ans2);
-        aretheycorrect(ans1, ans2);
+        console.log(ans3);
+        console.log(ans4);
+        aretheycorrect([0, ans1, ans2, ans3, ans4]);
 
     }
     else if(window.currentTab == "Domain4"){
         let edges = {"windy": [], "cloudy": [], "rain": ["windy", "cloudy"], "match": ["rain"]};
         let tagname = {"windy": 0, "cloudy": 1, "rain": 2, "match": 3};
         let question1 = [1,1,1,"*"];
-        let question2 = [1, "*", "*", 1]
+        let question2 = [1, "*", "*", 1];
+        let question3 = [0, "*", "*", 0];
+        let question4 = [0, "*", 1, 0];
         let ans1 = checkAnswers(question1, tagname, edges, 2);
         let ans2 = checkAnswers(question2, tagname, edges, 3);
+        let ans3 = checkAnswers(question3, tagname, edges, 3);
+        let ans4 = checkAnswers(question4, tagname, edges, 3);
         console.log(ans1);
         console.log(ans2);
-        aretheycorrect(ans1, ans2);
+        console.log(ans3);
+        console.log(ans4);
+        aretheycorrect([0, ans1, ans2, ans3, ans4]);
 
     }
     else if(window.currentTab == "Domain5"){
@@ -360,7 +396,7 @@ export function checkCPT(){
         let ans2 = checkAnswers(question2, tagname, edges, 1);
         console.log(ans1);
         console.log(ans2);
-        aretheycorrect(ans1, ans2);
+        aretheycorrect([0,ans1, ans2]);
 
 
 

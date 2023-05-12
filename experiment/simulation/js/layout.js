@@ -56,7 +56,7 @@ export function changeTabs(e) {
     refreshWorkingArea();
     // Changed for Inference
     // updateToolbar();marycmarycallsalls
-    // updateHints();
+    updateHints();
     updateQuestion();
     // updateInstructions();
     updateWorkingArea();
@@ -150,6 +150,14 @@ const updateQuestion = () => {
           <td>Find the probability of Earthquake given that Mary calls and there is an alarm?</td>
           <td id="ans2" contenteditable="true">?</td>
         </tr>
+        <tr>
+        <td>Find the probability of Johncalls given that both Marycalls and earthquake occurs?</td>
+        <td id="ans3" contenteditable="true">?</td>
+      </tr>
+      <tr>
+      <td>Find the probability of Johncalls given that both Marycalls and earthquake occurs and alarm rings?</td>
+      <td id="ans4" contenteditable="true">?</td>
+    </tr>
     </tbody>
 </table>`
   }
@@ -169,6 +177,14 @@ const updateQuestion = () => {
 <tr>
           <td>Find the probability of computermalfunction given that there is computer failiure and light failure?</td>
           <td id="ans2" contenteditable="true">?</td>
+        </tr>
+        <tr>
+          <td>Find the probability of computerfailure given there is no light failure?</td>
+          <td id="ans3" contenteditable="true">?</td>
+        </tr>
+<tr>
+          <td>Find the probability of computermalfunction given that there is computer failiure and light failure and electricityfailure?</td>
+          <td id="ans4" contenteditable="true">?</td>
         </tr>
     </tbody>
 </table>`
@@ -190,6 +206,14 @@ const updateQuestion = () => {
           <td>Find the probability of getting high aptitude score if IQ is low and score is high?</td>
           <td id="ans2" contenteditable="true">?</td>
         </tr>
+        <tr>
+        <td>Find the probability of having high IQ if the score is high?</td>
+        <td id="ans3" contenteditable="true">?</td>
+      </tr>
+      <tr>
+      <td>Find the probability of having high Score if the IQ is high?</td>
+      <td id="ans4" contenteditable="true">?</td>
+    </tr>
     </tbody>
 </table>`
   }
@@ -209,6 +233,14 @@ const updateQuestion = () => {
 <tr>
           <td>Find the probability of having a match if it is windy?</td>
           <td id="ans2" contenteditable="true">?</td>
+        </tr>
+        <tr>
+          <td>Find the probability of not having a match if it is not windy?</td>
+          <td id="ans3" contenteditable="true">?</td>
+        </tr>
+        <tr>
+          <td>Find the probability of not having a match if it is not windy but rainy?</td>
+          <td id="ans4" contenteditable="true">?</td>
         </tr>
     </tbody>
 </table>`
@@ -282,39 +314,245 @@ const updateInstructions = () => {
     instructionBox.innerHTML = title;
 }
 
-function updateHints(){
+function helperprint(question1, tagname, i, convname){
+  let denominator = ``
+  // console.log(convname)
+  // console.log("HI")
+  if(question1[tagname[i]]==1)
+  denominator += `${convname[i]}=T`
+  else if (question1[tagname[i]]==0)
+  denominator += `${convname[i]}=F`
+  else
+  denominator += `${convname[i]}=*`
+  return denominator
+}
+
+function findparentchild(edges, curname, tagname, question1, convname){
+  let elem = ``
+  let denominator = ``
+  // console.log(edges[curname])
+
+  for(let j in edges[curname]){
+    let i = edges[curname][j]
+    denominator += ` `
+    denominator += helperprint(question1, tagname, i, convname);
+  }
+  if(denominator!=``)
+  elem += `P(${helperprint(question1, tagname, curname, convname)} | ${denominator})`
+  else
+  elem += `P(${helperprint(question1, tagname, curname, convname)})`
+  
+  return elem;
+
+}
+function printRelevantHints(tem, edges, tagname, pos, convname){
+  // console.log(convname)
+  let tttem = 1;
+  let elem = ``
+  elem += `<br />`
+  elem += `<b>For a specific case:</b> `
+  elem += `<br /> <div id="coloredbox">`
+  // console.log(convname)
+  for(let i in tagname){
+    if(tem[tagname[i]]==1)
+      elem += `${i}(${convname[i]})=T `
+    else if(tem[tagname[i]]==0)
+      elem += `${i}(${convname[i]})=F `
+    else
+      elem += `${i}(${convname[i]})=*`
+  }
+  elem += `</div><br />`
+  let elem1 = ``
+  let fffff = 0
+  for(let i in tagname){
+    // console.log(i)
+    if(fffff == 0){
+    elem1 += findparentchild(edges, i, tagname, tem, convname)
+      fffff = 1
+  }
+  else{
+    elem1 += ` x `
+    elem1 += findparentchild(edges, i, tagname, tem, convname)
+    
+  }
+  }
+
+  elem1 += ` = `
+
+  // return elem;
+  fffff = 0
+  for(let key in tagname){
+      // console.log(key)
+      let curnum = ""
+      for(let par in edges[key]){
+          curnum = curnum + (tem[tagname[edges[key][par]]]).toString();
+      }
+      curnum = curnum + "1";
+      curnum = key + curnum;
+      // console.log(curnum);
+      const el = document.getElementById(curnum);
+      let vl = parseFloat(el.innerText);
+      // console.log(vl);
+      if(tem[tagname[key]] == 0){
+          vl= 1-vl;
+      }
+      // console.log(fffff)
+      if(fffff == 0){
+        elem1 += `${vl.toFixed(3)}`
+        fffff = 1
+      }
+      else{
+        elem1 += ` x `
+        elem1 += `${vl.toFixed(3)}`
+      }
+      tttem = tttem*vl;
+  }
+  return elem+elem1;
+}
+
+function findValidTerm(question1, tagname, edges, pos, convname){
+  
+  let n = Object.keys(tagname).length;
+  let elem = `<b>From the given question[1] what we need to find is</b> <br />`
+  for(let key in tagname){
+    addCPT([], 1, key);
+}
+  let denominator = ``
+  let fulldenom = ``
+  for(let i=0;i<n;i++){
+    if(i!=pos && question1[i]!="*"){
+      for(let ed in edges){
+        if(tagname[ed] == i){
+          denominator += ` `
+          if(question1[i]==1)
+          denominator += `${convname[ed]}=T`
+          else
+          denominator += `${convname[ed]}=F`
+        }
+      }
+    }
+    for(let ed in edges){
+      if(tagname[ed] == i){
+        fulldenom += ` `
+        if(question1[i]==1)
+        fulldenom += `${convname[ed]}=T`
+        else if(question1[i]==0)
+        fulldenom += `${convname[ed]}=F`
+        else
+        fulldenom += `${convname[ed]}=*` 
+      }
+    }
+
+  }
+  let nodeimp = ``
+  for(let ed in edges){
+    if(tagname[ed] == pos){
+      // denominator += ` `
+      if(question1[pos]==1)
+        nodeimp += `${convname[ed]}=T`
+      else
+        nodeimp += `${convname[ed]}=F`
+    }
+  }
+  // console.log(denominator)
+  elem += `P(${nodeimp} | ${denominator})`
+  // console.log(elem)
+  // elem += `<br />`
+  // elem += `= const x P(${nodeimp} ${denominator})`
+  // // elem += `<br />`
+
+  // // elem += `= const * 	\u2211 P(${nodeimp} ${denominator} RestVariables = True/False)`
+  // elem += `<br />`
+  // elem += `= const x	\u2211 P(${fulldenom})`
+  elem += `<br />`
+  elem += `= const x \u2211 `
+  let fffff = 0
+  for(let i in tagname){
+    // console.log(i)
+    if(fffff == 0){
+    elem += findparentchild(edges, i, tagname, question1, convname)
+      fffff = 1
+  }
+  else{
+    elem += ` x `
+    elem += findparentchild(edges, i, tagname, question1, convname)
+    
+  }
+  }
+
+  // return elem
+  for(let i=0;i<Math.pow(2, n);i++){
+      let tem = [];
+      let ji = i;
+      for(let j=0;j<n;j++){
+          tem.push(ji%2);
+          if(ji%2==1){
+              ji = ji - 1;
+          }
+          ji=ji/2;
+      }
+      // console.log(tem);
+      let fl = 1;
+      for(let j=0;j<n;j++){
+          if(question1[j] != "*"){
+              if(tem[j] != question1[j]){
+                  fl= 0;
+              }
+          }
+      }
+      if(fl==1){
+          // console.log(convname)
+          elem += printRelevantHints(tem, edges, tagname, pos, convname);
+          return elem;
+          break;
+      }
+  }
+}
+
+
+export function updateHints(){
   let elem = "";
   if(window.currentTab === "Domain1"){
-      elem = `<li>Alarm setsoff when there is a burglary or ocassionally when there is a earthquake.</li>
-      <li>John, Mary calling depends on whether the alarm is ringing</li>
-      <li>Are you getting any additional information about John/Mary calling if you know the reason why alarm is ringing?</li>
-      <li>Not really, as John/ Mary give least attention to reason why alarm is ringing.</li>
-      <li>You can ignore listening to music and telephone ringing, we can embed their probabilities in the Mary/John calling itself.</li>`
+      let question1 = [1, "*", "*", 1, 1];
+      let tagname = {"burglary": 0, "alarm": 1, "earthquake": 2, "marycalls": 3, "johncalls": 4};
+      let convname = {"burglary": "B", "alarm": "A", "earthquake": "E", "marycalls": "M", "johncalls":"J"};
+
+      let edges = {"alarm": ["burglary", "earthquake"], "earthquake": [], "burglary": [], "johncalls": ["alarm"], "marycalls": ["alarm"] };
+      elem = findValidTerm(question1, tagname, edges, 0, convname)
+
   }
   else if (window.currentTab === "Domain2"){
-      elem = `
-      <li> A computer can fail because of various reasons but two primary reasons are electricity failure and computer malfunction</li>
-      <li>But a light fails only because of electricity failure and possibly becae of some light malfunction</li>
-      <li>Notice that light failure has nothing to do with computer malfunctioning</li>`;
+    let edges = {"electricityfailure": [], "computermalfunction": [], "lightfailure": ["electricityfailure"], "computerfailure": ["electricityfailure", "computermalfunction"]};
+    let tagname = {"electricityfailure": 0, "computermalfunction": 1, "lightfailure": 2, "computerfailure": 3};
+    let convname = {"electricityfailure": "E", "computermalfunction": "CM", "lightfailure": "L", "computerfailure": "CF"};
+    let question1 = ["*", "*" , 1, 1];
+    elem = findValidTerm(question1, tagname, edges, 3, convname);
   }
   else if(window.currentTab === "Domain3"){
-    elem = `<li> Your score in an examination is dependent on how intelligent you are and also on how difficult the paper is</li> 
-    <li> You cannot write all questions even you are so intelligent</li>
-    <li> But your aptitude score only depends on the IQ and nothing else.</li>
-    `
+    let edges = {"examdifficulty": [], "iq": [], "score": ["examdifficulty", "iq"], "aptitudescore": ["iq"]};
+        let tagname = {"examdifficulty": 0, "iq": 1, "score": 2, "aptitudescore": 3};
+        let convname = {"examdifficulty": "E", "iq": "IQ", "score": "S", "aptitudescore": "A"};
+        
+        let question1 = ["*", 1, 0, "*"];
+    elem = findValidTerm(question1, tagname, edges, 1, convname);
   }
   else if(window.currentTab === "Domain4"){
-    elem = `<li> Rain depends on two factors  cloudiness, and the windspeed</li> 
-    <li> And a cricket match will most likely be afftected due to rain because of wet outfield</li>
-    `
+    let edges = {"windy": [], "cloudy": [], "rain": ["windy", "cloudy"], "match": ["rain"]};
+    let tagname = {"windy": 0, "cloudy": 1, "rain": 2, "match": 3};
+    let convname = {"windy": "W", "cloudy": "C", "rain": "R", "match": "M"};
+
+    let question1 = [1,1,1,"*"];
+    elem = findValidTerm(question1, tagname, edges, 2, convname);
   }
   else if(window.currentTab === "Domain5"){
-    elem = `<li>A player will be given Red card based on how harsh the tackle is</li>
-    <li>And also on if he already got any warnings (Yellow card) </li> 
+    let edges = {"yellowcard": [], "harshtackle": [], "redcard": ["harshtackle", "yellowcard"]};
+    let tagname = {"yellowcard": 0, "harshtackle":1, "redcard": 2};
+    let convname = {"yellowcard": "Y", "harshtackle":"H", "redcard": "R"};
 
-    `
+    let question1 = [1, "*", 1]
+    elem = findValidTerm(question1, tagname, edges, 2, convname);
   }
-  
+  document.getElementById("hintsid").style.fontSize = "small";
   document.getElementById("hintsid").innerHTML = elem;
 }
 

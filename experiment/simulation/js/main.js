@@ -1,5 +1,5 @@
 import * as nodejs from "./node.js";
-import { wireColours, updateWorkingArea } from "./layout.js";
+import { wireColours, updateWorkingArea, updateHints } from "./layout.js";
 
 "use strict";
 
@@ -104,4 +104,6 @@ export function refreshWorkingArea() {
   connectNode();
   refreshWorkingArea();
   updateWorkingArea();
+  // Changed at 8: 04 May 12 2023
+  updateHints();
   // console.log("HELLO")

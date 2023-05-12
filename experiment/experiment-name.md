@@ -1,1 +1,1 @@
-## Construction of Bayesian Network
+## Inference of Bayesian Network

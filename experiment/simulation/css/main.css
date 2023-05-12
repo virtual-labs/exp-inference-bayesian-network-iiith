@@ -1,6 +1,10 @@
 /* You CSS goes in here */
 /* You CSS goes in here */
 
+#coloredbox {
+  background-color: rgb(255, 223, 204) ;
+}
+
 .container {
     margin-top: 1%;
   }
@@ -14,6 +18,7 @@
   .jtk-endpoint { z-index:5; }
   .jtk-overlay { z-index:6; }
   
+
   /* disabling text selection */
   body {
     -webkit-touch-callout: none; /* iOS Safari */

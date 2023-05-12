@@ -1,4 +1,3 @@
-### Aim of the experiment
-
-* To understand what Bayesian Networks are and how they are usefull.
-* Constructing Bayesian Network for a given problem statement.
+* Help students infer useful information from Bayesian Network.
+* Help them calculate posterior probabilities given some evidence.
+* Using constructed Bayesian network to calculate the probabilites of the posterior probabilities.
