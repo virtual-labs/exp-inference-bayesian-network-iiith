@@ -27,6 +27,13 @@
         "source": "pretest.json",
         "target": "pretest.html"
       },
+        {
+        "target": "simulation.html",
+        "source": "simulation/simulation.html",
+        "label": "Demo",
+        "unit-type": "task",
+        "content-type": "simulation"
+      },
       {
         "target": "practice.html",
         "source": "simulation/practice.html",
