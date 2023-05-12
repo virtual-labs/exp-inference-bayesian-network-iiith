@@ -128,6 +128,7 @@ window.addNode = addNode;
 
 function addCPT(event, defa = 0, defaname= "hi") {
     let name = "hi"
+    // console.log("Found Ya")
     if(defa == 0){
         name = event.target.innerHTML.toUpperCase();
     }

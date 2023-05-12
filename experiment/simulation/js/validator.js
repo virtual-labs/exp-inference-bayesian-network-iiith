@@ -126,6 +126,7 @@ export function domainValidator1() {
         for(let [key, value] of Object.entries(adjlist)){
             const ele = document.getElementById(value.id);
             ele.onclick = function(event) {addCPT(event);};
+            ele.ontouchstart = function (event) { addCPT(event); }
         }
         
         const elel  = document.getElementById("finalbutton");
@@ -230,7 +231,6 @@ function calcContribution(tem, edges, tagname){
 
 function checkAnswers(question1, tagname, edges, pos){
     let n = Object.keys(tagname).length;
-    // console.log(n)
     // let question1 = [1, "*", "*", 1, 1];
     // let tagname = {"burglary": 0, "alarm": 1, "earthquake": 2, "marycalls": 3, "johncalls": 4};
     for(let key in tagname){
@@ -417,6 +417,7 @@ export function checkCPT(){
 export function domainValidator2() {
     let node_list = nodes;
     clearResult();
+
     let isCorrect = true;
     let adjlist = {};
     let newdic = {};
