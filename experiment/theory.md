@@ -1,9 +1,7 @@
 For any efficient construction, if we could not get any useful inference then it is useless. One of the basic inference is to calculate the posterior probability of query variables given some observed event (when we say observed event we mean is that some of the variables are set to some values). For the sake of understanding lets consider one variable in query variable. There will be some evidence provided let it be denoted by E. And there will be some more varilables other than evidence and query variable lets call them hidden varilables denoted by Y. A typical query asks for the posterior
 probability distribution P(X | e).
 
-P(X | e) = $\alpha$ P(X, e) = $\alpha$ 	$\sum_{y}^{}$ P(X, e, y) .
-Which can be expressed as:
-P(X | e) = $\alpha$ P(X, e) = $\alpha$ 	$\sum_{y}^{}$ $\prod_{x}^{}$ P(x | Parent(x)) 
+![Equation](./images/exn1.png)  
 
 Let us understand why such an equation is valid. Firstly using bayes formula we know that P(X|e) = P(X, e)/P(e).
 
@@ -20,12 +18,10 @@ P(Burglary | JohnCalls = true, MaryCalls = true)
 
 In this case the query variable is Burglary. And Johncalls, Marycalls are evidence variables. And hidden variables are earthquake and alarm. We could write the above equation as:
 
-P(B | j, m) = $\alpha$ P(B, j, m) = $\alpha$ $\sum_{e}^{}$ $\sum_{a}^{}$ P(B, j, m, e, a,) .
-
 In this equation we have used shorthand notations for varilables for the ease of explaining things.
 Lets consider the case for Burglary = T, and we can rewrite the above equation as:
 
-P(b | j, m) = $\alpha$ $\sum_{e}^{}$ $\sum_{a}^{}$ P(b) * P(e) * P(a | b, e) * P(j | a) * P(m | a)
+![Equation](./images/exn2.png)  
 
 This is because we know that we cold write total probability as product of individuation coditional probabilities of the varilables, but they are conditionally only dependent on their parents in the bayesian graph.
 
