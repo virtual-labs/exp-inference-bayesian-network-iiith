@@ -8,7 +8,9 @@ You could rearrange the nodes if the edge connections are not clear.
 Now click on the nodes to find the CPT tables of the node.
 ## Step 5:
 Using the formula mentioned in theory i.e
-P(X | e) = $\alpha$ P(X, e) = $\alpha$ 	$\sum_{y}^{}$ $\prod_{x}^{}$ P(x | Parent(x)) 
+
+![Equation](./images/exn3.png)  
+
 compute the probabilites. Note that the conditional probabilities are availiable in CPT table.
 ## Step 6:
 If you are struggling please refer to the hints section where one particular iteration of the algorithm is solved.
