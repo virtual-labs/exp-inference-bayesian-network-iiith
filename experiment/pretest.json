@@ -19,36 +19,6 @@
       "difficulty": "beginner"
     },
     {
-      "question": "In a directed graph how many parents can a node have?",
-      "answers": {
-        "a": "Atmost one",
-        "b": "Zero",
-        "c": "One",
-        "d": "None"
-      },
-      "explanations": {
-        "a": "Depending on the problem statement we can have any number of parents for a given node ranging from 0 to n-1 where n is total number of nodes",
-        "b": "Depending on the problem statement we can have any number of parents for a given node ranging from 0 to n-1 where n is total number of nodes",
-        "c": "Depending on the problem statement we can have any number of parents for a given node ranging from 0 to n-1 where n is total number of nodes",
-        "d": "Depending on the problem statement we can have any number of parents for a given node ranging from 0 to n-1 where n is total number of nodes"
-      },
-      "correctAnswer": "d",
-      "difficulty": "beginner"
-    },
-    {
-      "question": "Can we guarantee that there is unique Bayesian Network for a given problem statement?",
-      "answers": {
-        "a": "Yes",
-        "b": "No"
-      },
-      "explanations": {
-        "a": "There can be multiple valid Bayesian Networks for a given problem statement",
-        "b": "There can be multiple valid Bayesian Networks for a given problem statement"
-      },
-      "correctAnswer": "b",
-      "difficulty": "intermediate"
-    },
-    {
       "question": "Which of the follwing are true?",
       "answers": {
         "a": "Bayesian Network can represent any full joint probability distribution",
@@ -64,6 +34,39 @@
       },
       "correctAnswer": "d",
       "difficulty": "intermediate"
+    },
+    {
+      "question": "If x1 is the only parent of y in Bayesian network, what can you say about P(y/x1, x2, x3)",
+      "answers": {
+        "a": "P(x1/y)",
+        "b": "P(y/x1)",
+        "c": "P(y/x2,x3)",
+        "d": "P(x2,x3/y)"
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Can you express conditional probability interms of total probability terms",
+      "answers": {
+        "a": "Yes",
+        "b": "No",
+        "c": "Sometimes"
+      },
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Can you calculate constant in P(X/y) = const * P(X, y)?",
+      "answers": {
+        "a": "Yes",
+        "b": "No",
+        "c": "Sometimes"
+      },
+      "correctAnswer": "a",
+      "difficulty": "beginner"
     }
+
+    
   ]
 }
