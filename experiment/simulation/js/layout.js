@@ -736,6 +736,9 @@ function timeoutCustom(elem, timeoutduration){
 }
 
 function findValidTermSim(question1, tagname, edges, pos, convname, defval){
+  // if(page == "simulation.html")
+    clearSolution();
+
   allTimeOuts = [] 
   let n = Object.keys(tagname).length;
   let elem = `<br /><b>From the given question what we need to find is</b> <br />`
@@ -743,6 +746,9 @@ function findValidTermSim(question1, tagname, edges, pos, convname, defval){
     addCPT([], 1, key);
 }
   let fixedDurationSim = 1400
+  // console.log(fixedDurationSim)
+  fixedDurationSim =parseInt(document.getElementById("speedslider").value)
+  // console.log(fixedDurationSim)
   let timeoutduration = 0
   allTimeOuts.push(timeoutCustom(elem, timeoutduration))
   let temelem = ``
