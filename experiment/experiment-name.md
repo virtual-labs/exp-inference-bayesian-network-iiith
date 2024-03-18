@@ -1,1 +1,1 @@
-## Experiment name
+## Inference of Bayesian Network
