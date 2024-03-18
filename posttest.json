@@ -1,0 +1,59 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "Total conditional probability is efficient (always) than Bayesian Netowrk?",
+      "answers": {
+        "a": "True",
+        "b": "False"
+
+      },
+
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "If x1 is the only parent of y in Bayesian network, what can you say about P(y/x1, x2, x3)",
+      "answers": {
+        "a": "P(x1/y)",
+        "b": "P(y/x1)",
+        "c": "P(y/x2,x3)",
+        "d": "P(x2,x3/y)"
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Given network, (with (u,v) representing edge between u to v or parent of v is u), (p1,p2),(p2,p3),(p2,p4) and probabilites Pr(p1=T) = 0.4, Pr(p2=T/p1=T) = 0.8, Pr(p2=T/p1=F) = 0.5, Pr(p3=T/p2=T) = 0.2, Pr(p3=T/p2=F) = 0.3, Pr(p4=T/p2=T) = 0.8, Pr(p4=T/p2=F) = 0.5 Calculate Pr(p3=F)?",
+      "answers": {
+        "a": "0.762",
+        "b": "0.65",
+        "c": "0.5",
+        "d": "0.593"
+      },
+      "correctAnswer": "a",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "Given network, (with (u,v) representing edge between u to v or parent of v is u), (p1,p2),(p2,p3),(p2,p4) and probabilites Pr(p1=T) = 0.4, Pr(p2=T/p1=T) = 0.8, Pr(p2=T/p1=F) = 0.5, Pr(p3=T/p2=T) = 0.2, Pr(p3=T/p2=F) = 0.3, Pr(p4=T/p2=T) = 0.8, Pr(p4=T/p2=F) = 0.5 Calculate Pr(p2=T/p3=F)?",
+      "answers": {
+        "a": "0.762",
+        "b": "0.65",
+        "c": "0.5",
+        "d": "0.593"
+      },
+      "correctAnswer": "b",
+      "difficulty": "advanced"
+    },{
+      "question": "Given network, (with (u,v) representing edge between u to v or parent of v is u), (p1,p2),(p2,p3),(p2,p4) and probabilites Pr(p1=T) = 0.4, Pr(p2=T/p1=T) = 0.8, Pr(p2=T/p1=F) = 0.5, Pr(p3=T/p2=T) = 0.2, Pr(p3=T/p2=F) = 0.3, Pr(p4=T/p2=T) = 0.8, Pr(p4=T/p2=F) = 0.5 Calculate Pr(p1=T/p2=T,p3=F)?",
+      "answers": {
+        "a": "0.762",
+        "b": "0.65",
+        "c": "0.496",
+        "d": "0.796"
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
+    }
+  ]
+}
