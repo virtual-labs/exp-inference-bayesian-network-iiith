@@ -2,38 +2,71 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "Can a Bayesian Network have cycles?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Yes",
+        "b": "No",
+        "c": "Mostly",
+        "d": "Depends on the problem statement"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Based on how we construct, the graph would be directed acyclic, [Please refer: Artificial Intelligence: A Modern Approach, chapter: 14]",
+        "b": "Based on how we construct, the graph would be directed acyclic, [Please refer: Artificial Intelligence: A Modern Approach, chapter: 14]",
+        "c": "Based on how we construct, the graph would be directed acyclic, [Please refer: Artificial Intelligence: A Modern Approach, chapter: 14]",
+        "d": "Based on how we construct, the graph would be directed acyclic, [Please refer: Artificial Intelligence: A Modern Approach, chapter: 14]"
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Which of the follwing are true?",
+      "answers": {
+        "a": "Bayesian Network can represent any full joint probability distribution",
+        "b": "The graph constructed is most optimal for all valid Bayesian Network",
+        "c": "The graph constructed is not always optimal for all valid Bayesian Network",
+        "d": "Both a and c"
+      },
+      "explanations": {
+        "a": "Bayesian Network can represent any full joint probability distribution",
+        "b": "The graph constructed is not always optimal for all valid Bayesian Network",
+        "c": "The graph constructed is not always optimal for all valid Bayesian Network",
+        "d": "The graph constructed is not always optimal for all valid Bayesian Network and Bayesian Network can represent any full joint probability distribution"
+      },
+      "correctAnswer": "d",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "If x1 is the only parent of y in Bayesian network, what can you say about P(y/x1, x2, x3)",
+      "answers": {
+        "a": "P(x1/y)",
+        "b": "P(y/x1)",
+        "c": "P(y/x2,x3)",
+        "d": "P(x2,x3/y)"
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Can you express conditional probability interms of total probability terms",
+      "answers": {
+        "a": "Yes",
+        "b": "No",
+        "c": "Sometimes"
       },
       "correctAnswer": "a",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "Can you calculate constant in P(X/y) = const * P(X, y)?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Yes",
+        "b": "No",
+        "c": "Sometimes"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "c",
+      "correctAnswer": "a",
       "difficulty": "beginner"
     }
+
+    
   ]
 }
